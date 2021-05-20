@@ -5,11 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "LiveAppAPIClient",
+    platforms: [.iOS(.v13),.macOS(.v10_15)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "LiveAppAPIClient",
             targets: ["LiveAppAPIClient"]),
+        .library(
+            name: "LiveAppAPIClientWithAuth",
+            targets: ["LiveAppAPIClientWithAuth"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,6 +25,10 @@ let package = Package(
         .target(
             name: "LiveAppAPIClient",
             dependencies: []),
+        .target(
+            name: "LiveAppAPIClientWithAuth",
+            dependencies: [],
+            swiftSettings: [.define("USEAUTH")]),
         .testTarget(
             name: "LiveAppAPIClientTests",
             dependencies: ["LiveAppAPIClient"]),
