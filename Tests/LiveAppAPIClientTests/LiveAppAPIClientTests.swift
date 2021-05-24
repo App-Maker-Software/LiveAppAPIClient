@@ -1,11 +1,26 @@
 import XCTest
-@testable import LiveAppAPIClient
+@testable import LiveAppAPIClientWithAuth
+
+// you should set "hardcoded_api_token" to the api token you want to test with
+let hardcoded_api_token = ""
 
 final class LiveAppAPIClientTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual("", "Hello, World!")
+    
+    let api: LiveAppAPI = { () -> LiveAppAPI in
+        LiveAppAPI.shared.authToken = hardcoded_api_token
+        return LiveAppAPI.shared
+    }()
+    
+    func testUser() {
+        let expectation = XCTestExpectation()
+        api.getUser { user, error in
+            if let user = user {
+                XCTAssertTrue(user.uid != "")
+                expectation.fulfill()
+            } else {
+                XCTFail()
+            }
+        }
+        wait(for: [expectation], timeout: 3)
     }
 }

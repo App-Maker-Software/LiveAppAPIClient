@@ -31,6 +31,6 @@ let package = Package(
             swiftSettings: [.define("USEAUTH")]),
         .testTarget(
             name: "LiveAppAPIClientTests",
-            dependencies: ["LiveAppAPIClient"]),
+            dependencies: ["LiveAppAPIClientWithAuth"]),
     ]
 )
