@@ -2,7 +2,7 @@ import XCTest
 @testable import LiveAppAPIClientWithAuth
 
 // you should set "hardcoded_api_token" to the api token you want to test with
-let hardcoded_api_token = ""
+//let hardcoded_api_token = ""
 
 final class LiveAppAPIClientTests: XCTestCase {
     
