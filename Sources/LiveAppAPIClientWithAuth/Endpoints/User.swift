@@ -1,5 +1,5 @@
 //
-//  LiveAppIndex.swift
+//  User.swift
 //  
 //
 //  Created by Joseph Hinkle on 5/20/21.
@@ -13,7 +13,7 @@ extension LiveAppAPI {
             if let response = response, let user = response.body.parse(as: UserModel.self) {
                 callback(user, nil)
             } else {
-                callback(nil, error)
+                callback(nil, self.proccessFailure(response: response, error: error))
             }
         }
     }
