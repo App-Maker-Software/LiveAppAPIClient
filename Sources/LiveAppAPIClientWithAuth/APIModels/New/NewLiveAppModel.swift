@@ -12,6 +12,11 @@ import Foundation
 public struct NewLiveAppModel: Encodable {
     public let name: String
     public let bundle_id: String
+    
+    public init(name: String, bundle_id: String) {
+        self.name = name
+        self.bundle_id = bundle_id
+    }
 }
 #endif
 
