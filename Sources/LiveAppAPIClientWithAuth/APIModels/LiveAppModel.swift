@@ -9,10 +9,11 @@
 #if USEAUTH
 import Foundation
 
-struct LiveAppModel: Decodable {
-    let id: String
-    let name: String
-    let owner: String
-    let collaborators: [String]
+public struct LiveAppModel: Decodable {
+    public let id: String
+    public let name: String
+    public let bundle_id: String
+    public let owner_uid: String
+    public let collaborator_uids: [String]
 }
 #endif

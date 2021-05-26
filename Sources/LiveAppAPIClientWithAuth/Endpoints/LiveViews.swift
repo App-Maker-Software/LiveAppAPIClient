@@ -8,9 +8,18 @@
 import Foundation
 
 extension LiveAppAPI {
-    public func getLiveView(liveViewId: String, callback: @escaping (_ viewModel: ViewModel?, _ error: Error?) -> Void) {
+    public func getLiveViews(for liveAppId: String, callback: @escaping (_ viewModel: [LiveViewModel]?, _ error: Error?) -> Void) {
+        self.get("live-views", parameters: ["live_app_id": liveAppId]) { response, error in
+            if let response = response, let views = response.body.parse(as: [LiveViewModel].self) {
+                callback(views, nil)
+            } else {
+                callback(nil, self.proccessFailure(response: response, error: error))
+            }
+        }
+    }
+    public func getLiveView(liveViewId: String, callback: @escaping (_ viewModel: LiveViewModel?, _ error: Error?) -> Void) {
         self.get("live-views/\(liveViewId)") { response, error in
-            if let response = response, let view = response.body.parse(as: ViewModel.self) {
+            if let response = response, let view = response.body.parse(as: LiveViewModel.self) {
                 callback(view, nil)
             } else {
                 callback(nil, self.proccessFailure(response: response, error: error))

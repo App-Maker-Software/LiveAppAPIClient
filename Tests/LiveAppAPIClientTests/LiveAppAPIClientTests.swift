@@ -53,38 +53,45 @@ final class LiveAppAPIClientTests: XCTestCase {
         wait(for: [expectation2], timeout: 3)
         // find it
         let expectation3 = XCTestExpectation()
-        api.addLiveApp(liveApp: liveApp) { success, error in
-            if success {
-                XCTFail("should not be able to add the same live app a second time")
+        var liveAppId: String!
+        api.getAllLiveApps { liveApps, error in
+            if let liveApps = liveApps {
+                if let match = liveApps.first(where: {
+                    $0.bundle_id == liveApp.bundle_id && $0.name == liveApp.name
+                }) {
+                    liveAppId = match.id
+                    XCTAssertTrue(true)
+                    expectation3.fulfill()
+                } else {
+                    XCTFail("couldn't find \(liveApp.bundle_id)")
+                }
             } else {
-                XCTAssertTrue(true)
-                expectation3.fulfill()
+                XCTFail(error?.localizedDescription ?? "")
             }
         }
         wait(for: [expectation3], timeout: 3)
         // read it
         let expectation4 = XCTestExpectation()
-        api.addLiveApp(liveApp: liveApp) { success, error in
-            if success {
-                XCTFail("should not be able to add the same live app a second time")
-            } else {
-                XCTAssertTrue(true)
+        api.getLiveApp(liveAppId: liveAppId) { liveApp, error in
+            if let liveApp = liveApp {
+                XCTAssertTrue(liveApp.id == liveAppId)
                 expectation4.fulfill()
+            } else {
+                XCTFail(error?.localizedDescription ?? "")
             }
         }
         wait(for: [expectation4], timeout: 3)
-        
-        
-        
-        
-//        api.getLiveApp(liveAppId: "test") { liveApp, error in
-//            if let liveApp = liveApp {
-//                XCTAssertTrue(true)
-//                expectation.fulfill()
-//            } else {
-//                XCTFail(error?.localizedDescription ?? "")
-//            }
-//        }
+        // delete it
+        let expectation5 = XCTestExpectation()
+        api.deleteLiveApp(liveAppId: liveAppId) { success, error in
+            if success {
+                XCTAssertTrue(success)
+                expectation5.fulfill()
+            } else {
+                XCTFail(error?.localizedDescription ?? "")
+            }
+        }
+        wait(for: [expectation5], timeout: 3)
     }
     
     func testCreationReadingAndDeletingOfAView() {

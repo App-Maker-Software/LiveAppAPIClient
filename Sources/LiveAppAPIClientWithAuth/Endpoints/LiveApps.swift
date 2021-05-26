@@ -9,9 +9,9 @@ import Foundation
 
 extension LiveAppAPI {
     public func getAllLiveApps(callback: @escaping (_ viewModel: [LiveAppModel]?, _ error: Error?) -> Void) {
-        self.get("live-apps/\(liveAppId)") { response, error in
-            if let response = response, let view = response.body.parse(as: [LiveAppModel].self) {
-                callback(view, nil)
+        self.get("live-apps") { response, error in
+            if let response = response, let views = response.body.parse(as: [LiveAppModel].self) {
+                callback(views, nil)
             } else {
                 callback(nil, self.proccessFailure(response: response, error: error))
             }
