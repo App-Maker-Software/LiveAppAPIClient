@@ -14,7 +14,7 @@ struct LiveAppUpdateRequestModel: Decodable {
     let swift_interpreter_version: String
     let swift_ast_version: String
     let static_dependency_ids: [String]
-    let live_view_ids: [LiveDependencyModel]
+    let live_view_ids: [String]
     #if DEBUG
     var mode = "debug"
     #endif

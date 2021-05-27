@@ -10,21 +10,16 @@
 import Foundation
 
 public struct NewLiveViewModel: Encodable {
-    public let name: String
-    
-    public let source_code: String
-    public let view_data: String // base 64 encoded
+    public let name: String // i.e. struct name
+    public let live_app_id: String
     public let init_checksum: String
-    
-    public let mk_name: String
-    public let mk_description: String
-    public let mk_availability: String
-    
     public let static_dependency_ids: [String]
-    public let minimum_ios_version: String
-    public let minimum_swift_interpreter_version: String
-    public let swift_ast_version: String
     
-    public let live_app_id: String?
+    public init(name: String, live_app_id: String, init_checksum: String, static_dependency_ids: [String]) {
+        self.name = name
+        self.live_app_id = live_app_id
+        self.init_checksum = init_checksum
+        self.static_dependency_ids = static_dependency_ids
+    }
 }
 #endif
